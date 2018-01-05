@@ -8,8 +8,7 @@
     "build": "ng build",
     "test": "ng test",
     "lint": "ng lint",
-    "e2e": "ng e2e",
-    "postinstall": "ng build --aot -prod"
+    "e2e": "ng e2e"
   },
   "private": true,
   "dependencies": {
@@ -26,8 +25,7 @@
     "core-js": "^2.4.1",
     "firebase": "^4.8.0",
     "rxjs": "^5.5.2",
-    "zone.js": "^0.8.14",
-    "@angular/cli": "1.5.5"
+    "zone.js": "^0.8.14"
   },
   "devDependencies": {
     "@angular/cli": "1.5.5",
