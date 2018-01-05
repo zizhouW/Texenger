@@ -1,7 +1,6 @@
-.cursor-pointer {
+.card {
     cursor: pointer;
 }
-
-.li-hover:hover {
+.card-body :hover {
     background: #eeeeee;
 }

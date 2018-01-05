@@ -1,0 +1,25 @@
+<!--Card-->
+<div>
+    <div *ngFor="let room of roomInfo; let idx = index" class="card" style="max-width: 400px; margin-left:2%; display:inline-block;margin-top: 5%;"
+        (click)="toChatRoom(userRooms[idx]);">
+
+        <!-- Image -->
+        <img class="card-img-top" src="../../assets/images/default-room.jpg" alt="Photo of sunset">
+
+        <!-- Text Content -->
+        <div class="card-body">
+            <p class="card-text">{{(room | async)?.room_name}}</p>
+        </div>
+    </div>
+    <div class="card" style="max-width: 400px; margin-left:2%; display:inline-block;margin-top: 5%;">
+
+        <!-- Image -->
+        <img class="card-img-top" src="../../assets/images/add_new.png" alt="Photo of sunset">
+
+        <!-- Text Content -->
+        <div class="card-body">
+            <p class="card-text">Create a new room</p>
+        </div>
+    </div>
+</div>
+<!--/.Card-->

@@ -1,20 +1,152 @@
-<!--The content below is only a placeholder and can be replaced.-->
-<div style="text-align:center">
-  <h1>
-    Welcome to {{ title }}!
-  </h1>
-  <img width="300" alt="Angular Logo" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNTAgMjUwIj4KICAgIDxwYXRoIGZpbGw9IiNERDAwMzEiIGQ9Ik0xMjUgMzBMMzEuOSA2My4ybDE0LjIgMTIzLjFMMTI1IDIzMGw3OC45LTQzLjcgMTQuMi0xMjMuMXoiIC8+CiAgICA8cGF0aCBmaWxsPSIjQzMwMDJGIiBkPSJNMTI1IDMwdjIyLjItLjFWMjMwbDc4LjktNDMuNyAxNC4yLTEyMy4xTDEyNSAzMHoiIC8+CiAgICA8cGF0aCAgZmlsbD0iI0ZGRkZGRiIgZD0iTTEyNSA1Mi4xTDY2LjggMTgyLjZoMjEuN2wxMS43LTI5LjJoNDkuNGwxMS43IDI5LjJIMTgzTDEyNSA1Mi4xem0xNyA4My4zaC0zNGwxNy00MC45IDE3IDQwLjl6IiAvPgogIDwvc3ZnPg==">
+<nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
+    <a class="navbar-brand" href="#">Texenger</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse"
+        aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarCollapse">
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item active">
+                <a class="nav-link" href="#">Home
+                    <span class="sr-only">(current)</span>
+                </a>
+            </li>
+            <!-- <li class="nav-item">
+                <a class="nav-link" href="#">Link</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link disabled" href="#">Disabled</a>
+            </li> -->
+        </ul>
+        <ul class="nav navbar-nav flex-row justify-content-between ml-auto">
+            <li *ngIf="!isLoggedIn" class="dropdown order-1">
+                <button class="btn btn-outline-info dropdown-toggle" type="button" data-toggle="dropdown">Login
+                    <span class="caret"></span>
+                </button>
+                <!-- <button type="button" id="dropdownMenu1" data-toggle="dropdown" class="btn btn-outline-secondary dropdown-toggle">Login <span class="caret"></span></button> -->
+                <ul class="dropdown-menu dropdown-menu-right mt-1" style="min-width: 250px;">
+                    <li class="p-3">
+                        <form class="form" role="form" (ngSubmit)="onLoginSubmit()">
+                            <div class="form-group">
+                                <input placeholder="Email" class="form-control form-control-sm" type="text" name="email" required="" [(ngModel)]="userLogin.email">
+                            </div>
+                            <div class="form-group">
+                                <input placeholder="Password" class="form-control form-control-sm" type="password" name="password" required="" [(ngModel)]="userLogin.password">
+                            </div>
+                            <div class="form-group">
+                                <button type="submit" class="btn btn-primary btn-block cursor-pointer">Login</button>
+                            </div>
+                            <div class="text-xs-center">
+                                <small>
+                                    <a href="#">Forgot password?</a>
+                                </small>
+                                <br/>
+                                <small>
+                                    <a href="#" (click)="userRegister();">New user</a>
+                                </small>
+                            </div>
+                        </form>
+                    </li>
+                </ul>
+            </li>
+            <li *ngIf="isLoggedIn" class="nav-item cursor-pointer" style="color: #99b3ff;">
+                <span style="margin-right: 10px;" class="dropdown-toggle" data-toggle="dropdown">Welcome! {{ userInfo.name }}</span>
+                <i class="fa fa-user" aria-hidden="true"></i>
+                <ul class="dropdown-menu dropdown-menu-right mt-1 li-hover" style="min-width: 250px;">
+                    <li class="p-3 cursor-pointer">
+                        <i class="fa fa-sign-out" aria-hidden="true"></i> Log out
+                    </li>
+                </ul>
+            </li>
+        </ul>
+    </div>
+</nav>
+<router-outlet></router-outlet>
+<div *ngIf="!isLoggedIn && !isNewUser" style="text-align: center; margin-top: 10%;">
+    <img src="../../assets/images/lollypopax.png" alt="Jax Welcomes You!">
 </div>
-<h2>Here are some links to help you start: </h2>
-<ul>
-  <li>
-    <h2><a target="_blank" rel="noopener" href="https://angular.io/tutorial">Tour of Heroes</a></h2>
-  </li>
-  <li>
-    <h2><a target="_blank" rel="noopener" href="https://github.com/angular/angular-cli/wiki">CLI Documentation</a></h2>
-  </li>
-  <li>
-    <h2><a target="_blank" rel="noopener" href="https://blog.angular.io/">Angular blog</a></h2>
-  </li>
-</ul>
-
+<div *ngIf="isNewUser" class="container" style="margin-top: 75px;">
+    <form class="form-horizontal" role="form" (ngSubmit)="onRegisterSubmit()">
+        <div class="row">
+            <h2 style="margin: 2% auto;">Register New User</h2>
+        </div>
+        <div class="row">
+            <div class="col-md-4 field-label-responsive">
+                <label for="name">Name</label>
+            </div>
+            <div class="col-md-8">
+                <div class="form-group">
+                    <div class="input-group mb-2 mr-sm-2 mb-sm-0">
+                        <div class="input-group-addon" style="width: 2.6rem">
+                            <i class="fa fa-user"></i>
+                        </div>
+                        <input type="text" name="name" class="form-control" id="name" placeholder="John Doe" required autofocus  [(ngModel)]="userRegistering.name">
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="form-control-feedback">
+                    <span class="text-danger align-middle">
+                        <!-- Put name validation error messages here -->
+                    </span>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-4 field-label-responsive">
+                <label for="email">E-Mail Address</label>
+            </div>
+            <div class="col-md-8">
+                <div class="form-group">
+                    <div class="input-group mb-2 mr-sm-2 mb-sm-0">
+                        <div class="input-group-addon" style="width: 2.6rem">
+                            <i class="fa fa-at"></i>
+                        </div>
+                        <input type="text" name="email" class="form-control" id="email" placeholder="you@example.com" required autofocus [(ngModel)]="userRegistering.email">
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="form-control-feedback">
+                    <span class="text-danger align-middle">
+                        <!-- Put e-mail validation error messages here -->
+                    </span>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-4 field-label-responsive">
+                <label for="password">Password</label>
+            </div>
+            <div class="col-md-8">
+                <div class="form-group has-danger">
+                    <div class="input-group mb-2 mr-sm-2 mb-sm-0">
+                        <div class="input-group-addon" style="width: 2.6rem">
+                            <i class="fa fa-key"></i>
+                        </div>
+                        <input type="password" name="password" class="form-control" id="password" placeholder="Password" required  [(ngModel)]="userRegistering.password">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-4 field-label-responsive">
+                <label for="password">Confirm Password</label>
+            </div>
+            <div class="col-md-8">
+                <div class="form-group">
+                    <div class="input-group mb-2 mr-sm-2 mb-sm-0">
+                        <div class="input-group-addon" style="width: 2.6rem">
+                            <i class="fa fa-repeat"></i>
+                        </div>
+                        <input type="password" name="password-confirmation" class="form-control" id="password-confirm" placeholder="Password" required  [(ngModel)]="userRegistering.confirmPassword">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <button type="submit" class="btn btn-success" style="width: 100%; margin: 1% 1.2%; height: 50px;">
+                <i class="fa fa-user-plus"></i>Register</button>
+        </div>
+    </form>
+</div>
