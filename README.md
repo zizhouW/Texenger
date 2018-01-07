@@ -4,8 +4,8 @@ A messaging web app built with Angular 5
 
 ## Demo
 
-![Alt text](https://imgur.com/4aLYe9W)
+![Alt text](https://i.imgur.com/4aLYe9W.png)
 
-![Alt text](https://imgur.com/RTh1Z8h)
+![Alt text](https://i.imgur.com/RTh1Z8h.png)
 
-![Alt text](https://imgur.com/eyPp9ox)
+![Alt text](https://i.imgur.com/eyPp9ox.png)
