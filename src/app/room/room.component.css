@@ -33,3 +33,10 @@ footer {
     width: 9.2%;
     border: 0px;
 }
+
+img {
+    opacity: 0.5;
+    margin-left: auto;
+	margin-right: auto;
+	display: block;
+}

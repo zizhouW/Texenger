@@ -1,6 +1,17 @@
-.card {
-    cursor: pointer;
-}
 .card-body :hover {
     background: #eeeeee;
+}
+
+.cursor-pointer {
+    cursor: pointer;
+}
+
+.md2-dialog-panel { 
+    width: auto !important; 
+    min-width: 1000px; 
+}
+
+.new-room-input {
+    width: 100%;
+    border: 0;
 }

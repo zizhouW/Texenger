@@ -1,15 +1,15 @@
 <div style="margin-top:75px; margin-left:2%; max-height:790px; overflow-y: scroll;">
-    <div *ngFor="let message of chat" [ngClass]="message.user == userName ? 'my-messages' : 'other-messages'"
-        style="margin-bottom:1%; overflow: visible;">
+    <div *ngFor="let message of chat" [ngClass]="message.user == userName ? 'my-messages' : 'other-messages'" style="margin-bottom:1%; overflow: visible;">
         <span>
             <b>{{message.user}}</b>
         </span>
         <br/>
         <span style="font-size:1.5em;">{{message.message}}</span>
     </div>
-    <div style="height:110px;"></div>
+    <!-- Image taken from https://www.betterhelp.com/advice/general/i-feel-empty-when-a-lack-of-meaning-is-something-more-serious/ -->
+    <img *ngIf="chat && chat.length == 0" src="../../assets/images/empty.jpg" alt="room_image_default">
 </div>
 <footer class="fixed-bottom">
-    <textarea class="message-box" style="resize: none;" placeholder="search text here" [(ngModel)]="textMessage"></textarea>
-    <input type="submit" value="&crarr;" class="submit-msg-btn" style="font-size:1.5em;" (click)="sendMessage()" />
+    <textarea class="message-box" style="resize: none;" placeholder="enter text here" name="textbox" [(ngModel)]="textMessage"></textarea>
+    <input type="submit" value="&crarr;" class="submit-msg-btn" style="font-size:1.5em;" />
 </footer>

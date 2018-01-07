@@ -1,25 +1,23 @@
-<!--Card-->
 <div>
-    <div *ngFor="let room of roomInfo; let idx = index" class="card" style="max-width: 400px; margin-left:2%; display:inline-block;margin-top: 5%;"
-        (click)="toChatRoom(userRooms[idx]);">
-
-        <!-- Image -->
-        <img class="card-img-top" src="../../assets/images/default-room.jpg" alt="Photo of sunset">
-
-        <!-- Text Content -->
+    <div *ngFor="let room of roomInfo; let idx = index" class="card cursor-pointer" style="max-width: 400px; margin-left:2%; display:inline-block;margin-top: 5%;"
+        (click)="toChatRoom(userRooms.rooms[idx]);">
+        <img class="card-img-top" src="../../assets/images/default_room.jpg" alt="room_image_default">
         <div class="card-body">
             <p class="card-text">{{(room | async)?.room_name}}</p>
         </div>
     </div>
-    <div class="card" style="max-width: 400px; margin-left:2%; display:inline-block;margin-top: 5%;">
-
-        <!-- Image -->
-        <img class="card-img-top" src="../../assets/images/add_new.png" alt="Photo of sunset">
-
-        <!-- Text Content -->
+    <div class="card cursor-pointer" style="max-width: 400px; margin-left:2%; display:inline-block;margin-top: 5%;" (click)="newRoomDialog.open()">
+        <img class="card-img-top" src="../../assets/images/add_new.png" alt="Add New">
         <div class="card-body">
             <p class="card-text">Create a new room</p>
         </div>
     </div>
 </div>
-<!--/.Card-->
+<md2-dialog #newRoomDialog>
+    <md2-dialog-title>New Room</md2-dialog-title>
+    <input class="new-room-input" placeholder="Input room name" type="text" name="room_name" [(ngModel)]="newRoomName">
+    <md2-dialog-footer>
+        <button class="btn btn-primary cursor-pointer" (click)="addNewRoom(); newRoomDialog.close();">Submit</button>
+        <button class="btn cursor-pointer" (click)="newRoomDialog.close()">Cancel</button>
+    </md2-dialog-footer>
+</md2-dialog>

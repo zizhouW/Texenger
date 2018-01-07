@@ -3,6 +3,7 @@ import { AngularFirestore, AngularFirestoreCollection, AngularFirestoreDocument 
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/map';
 import { ActivatedRoute } from '@angular/router';
+import { ToastsManager } from 'ng2-toastr/ng2-toastr';
 
 interface UserInfo {
     email: string;
@@ -34,7 +35,7 @@ export class RoomComponent {
     //   userRooms: string[];
     //   roomInfo: Observable<RoomInfo>[];
 
-    constructor(private afs: AngularFirestore, private route: ActivatedRoute) {
+    constructor(private afs: AngularFirestore, private route: ActivatedRoute, private toastr: ToastsManager) {
         this.route.params.subscribe(res => { this.roomId = res.roomId; this.userId = res.userId; this.userName = res.userName });
         this.chat = [];
     }
@@ -57,7 +58,6 @@ export class RoomComponent {
                     return a.time - b.time;
                 })
             });
-
     }
 
     sendMessage() {
@@ -69,7 +69,7 @@ export class RoomComponent {
             this.afs.collection('rooms/' + this.roomId + '/chat').add({ 'message': this.textMessage, 'user': this.userName, 'time': dateTime });
         }
         else {
-            alert('Cannot send empty message.')
+            this.toastr.info('Cannot send empty messages.')
         }
         this.textMessage = '';
     }

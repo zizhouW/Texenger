@@ -1,9 +1,12 @@
 import { BrowserModule } from '@angular/platform-browser';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { AngularFireModule } from 'angularfire2';
 import { AngularFirestoreModule } from 'angularfire2/firestore';
 import { Routes, RouterModule } from '@angular/router';
+import { Md2Module } from 'md2';
+import { ToastModule } from 'ng2-toastr/ng2-toastr';
 
 
 import { AppComponent } from './app.component';
@@ -21,7 +24,7 @@ var firebaseConfig = {
 
 const routes: Routes = [
   {
-    path: 'roomList/:userId',
+    path: 'roomList/:userId/:userEmail',
     component: RoomListComponent
   },
   {
@@ -38,9 +41,12 @@ const routes: Routes = [
   ],
   imports: [
     BrowserModule,
+    BrowserAnimationsModule,
+    ToastModule.forRoot(),
     FormsModule,
     AngularFireModule.initializeApp(firebaseConfig),
     AngularFirestoreModule,
+    Md2Module,
     RouterModule.forRoot(routes, { useHash: true })
   ],
   providers: [],

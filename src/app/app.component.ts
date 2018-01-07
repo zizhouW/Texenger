@@ -1,8 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewContainerRef } from '@angular/core';
 import { AngularFirestore, AngularFirestoreCollection, AngularFirestoreDocument } from 'angularfire2/firestore';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/map';
 import { Routes, RouterModule, Router } from "@angular/router";
+import { ToastsManager, ToastOptions } from 'ng2-toastr/ng2-toastr';
 
 interface UserInfo {
   email: string;
@@ -29,8 +30,9 @@ export class AppComponent {
   users: any[];
   userInfo: any;
   allRoomId = 'AE76WJJqj8E4vQy8buqY';
+  toastrOptions: ToastOptions;
 
-  constructor(private afs: AngularFirestore, private router: Router) {
+  constructor(private afs: AngularFirestore, private router: Router, private toastr: ToastsManager, private vRef: ViewContainerRef, private tOptions: ToastOptions) {
     this.userLogin = {
       email: '',
       password: ''
@@ -46,6 +48,10 @@ export class AppComponent {
       confirmPassword: '',
       name: ''
     }
+    this.toastr.setRootViewContainerRef(vRef);
+    tOptions.positionClass = 'toast-bottom-right';
+    tOptions.animate = 'flyRight';
+    this.toastrOptions = tOptions;
   }
 
   ngOnInit() {
@@ -84,10 +90,10 @@ export class AppComponent {
       }
     });
     if (userFilter.length == 0) {
-      alert('User does not exists.');
+      this.toastr.error('User does not exists.', 'Invalid Login', this.toastrOptions);
     }
     else if (userFilter[0].password != this.userLogin.password) {
-      alert('Wrong password.');
+      this.toastr.error('Wrong password.', 'Invalid Login', this.toastrOptions);
     }
     else {
       this.isLoggedIn = true;
@@ -97,9 +103,10 @@ export class AppComponent {
         email: userFilter[0].email,
         name: userFilter[0].name
       };
-      let username = 'roomList/' + userFilter[0].id;
+      let username = 'roomList/' + userFilter[0].id + '/' + userFilter[0].email;
       this.router.navigate([username]);
     }
+    this.userLogin.password = '';
   }
 
   userRegister() {
@@ -114,16 +121,20 @@ export class AppComponent {
       }
     });
     if (userFilter.length != 0) {
-      alert('This email has already been used.');
+      this.toastr.error('This E-mail has already been used.', 'Invalid E-mail', this.toastrOptions);
     }
     else if (this.userRegistering.password != this.userRegistering.confirmPassword) {
-      alert('Passwords entered are not the same.')
+      this.toastr.error('Passwords entered are not the same.', 'Invalid password', this.toastrOptions);
     }
     else {
       this.afs.collection('users').add({
         'name': this.userRegistering.name,
         'email': this.userRegistering.email,
         'password': this.userRegistering.password,
+        'rooms': [this.allRoomId]
+      });
+      this.afs.collection('user-rooms').add({
+        'userEmail': this.userRegistering.email,
         'rooms': [this.allRoomId]
       });
       this.refreshUsers();
