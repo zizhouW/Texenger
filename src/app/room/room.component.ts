@@ -2,8 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { AngularFirestore, AngularFirestoreCollection, AngularFirestoreDocument } from 'angularfire2/firestore';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/map';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { ToastsManager } from 'ng2-toastr/ng2-toastr';
+import { GlobalVariables } from '../global.variables';
 
 interface UserInfo {
     email: string;
@@ -35,12 +36,15 @@ export class RoomComponent {
     //   userRooms: string[];
     //   roomInfo: Observable<RoomInfo>[];
 
-    constructor(private afs: AngularFirestore, private route: ActivatedRoute, private toastr: ToastsManager) {
+    constructor(private afs: AngularFirestore, private route: ActivatedRoute, private toastr: ToastsManager, private router: Router, private globals: GlobalVariables) {
         this.route.params.subscribe(res => { this.roomId = res.roomId; this.userId = res.userId; this.userName = res.userName });
         this.chat = [];
     }
 
     ngOnInit() {
+        if (this.globals.loggedInAs == null) {
+            this.router.navigate(['home']);
+        }
         let chatCol = this.afs.collection('rooms/' + this.roomId + '/chat');
         chatCol.snapshotChanges()
             .map(actions => {
@@ -60,7 +64,7 @@ export class RoomComponent {
             });
     }
 
-    sendMessage() {
+    sendMessage(messagesDiv) {
         let docId = this.chat.length + 1;
         let dateNow = new Date();
         let dateTime = dateNow.getTime();
@@ -72,5 +76,8 @@ export class RoomComponent {
             this.toastr.info('Cannot send empty messages.')
         }
         this.textMessage = '';
+        setTimeout(function() {
+            messagesDiv.scrollTop = messagesDiv.scrollHeight;
+        }, 50);
     }
 }

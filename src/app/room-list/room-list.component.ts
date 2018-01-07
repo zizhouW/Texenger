@@ -4,6 +4,7 @@ import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/map';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ToastsManager } from 'ng2-toastr/ng2-toastr';
+import { GlobalVariables } from '../global.variables';
 
 interface UserInfo {
   email: string;
@@ -38,7 +39,7 @@ export class RoomListComponent {
   roomInfo: Observable<RoomInfo>[];
   newRoomName = '';
 
-  constructor(private afs: AngularFirestore, private route: ActivatedRoute, private router: Router, private toastr: ToastsManager) {
+  constructor(private afs: AngularFirestore, private route: ActivatedRoute, private router: Router, private toastr: ToastsManager, private globals: GlobalVariables) {
     this.route.params.subscribe(res => { this.userId = res.userId; this.userEmail = res.userEmail });
     this.roomInfo = [];
     this.userName = '';
@@ -50,6 +51,9 @@ export class RoomListComponent {
   }
 
   ngOnInit() {
+    if (this.globals.loggedInAs == null) {
+      this.router.navigate(['home']);
+    }
     let usersCol = this.afs.collection('users');
     let userRoomsCol = this.afs.collection('user-rooms');
     usersCol.snapshotChanges()

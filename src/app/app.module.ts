@@ -1,5 +1,5 @@
 import { BrowserModule } from '@angular/platform-browser';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { AngularFireModule } from 'angularfire2';
@@ -12,6 +12,10 @@ import { ToastModule } from 'ng2-toastr/ng2-toastr';
 import { AppComponent } from './app.component';
 import { RoomListComponent } from './room-list/room-list.component';
 import { RoomComponent } from './room/room.component';
+import { HomeComponent } from './home/home.component';
+import { RegisterComponent } from './register/register.component';
+import { NotFoundComponent } from './not-found/not-found.component';
+import { GlobalVariables } from './global.variables';
 
 var firebaseConfig = {
   apiKey: "AIzaSyAgtxUZU5jvfF52lDxJcNK9wTWYyLQ8hjI",
@@ -24,32 +28,52 @@ var firebaseConfig = {
 
 const routes: Routes = [
   {
+    path: '',
+    redirectTo: 'home',
+    pathMatch: 'full'
+  },
+  {
+    path: 'home',
+    component: HomeComponent
+  },
+  {
+    path: 'register',
+    component: RegisterComponent
+  },
+  {
     path: 'roomList/:userId/:userEmail',
     component: RoomListComponent
   },
   {
     path: 'room/:userName/:userId/:roomId',
     component: RoomComponent
+  },
+  {
+    path: '**',
+    component: NotFoundComponent
   }
 ];
 
 @NgModule({
   declarations: [
     AppComponent,
+    HomeComponent,
+    RegisterComponent,
     RoomListComponent,
-    RoomComponent
+    RoomComponent,
+    NotFoundComponent
   ],
   imports: [
     BrowserModule,
-    BrowserAnimationsModule,
+    NoopAnimationsModule,
     ToastModule.forRoot(),
     FormsModule,
     AngularFireModule.initializeApp(firebaseConfig),
     AngularFirestoreModule,
     Md2Module,
-    RouterModule.forRoot(routes, { useHash: true })
+    RouterModule.forRoot(routes, { useHash: false })
   ],
-  providers: [],
+  providers: [GlobalVariables],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

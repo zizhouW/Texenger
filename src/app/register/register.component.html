@@ -1,0 +1,85 @@
+<div class="container" style="margin-top: 75px;">
+    <form class="form-horizontal" role="form" (ngSubmit)="onRegisterSubmit()">
+        <div class="row">
+            <h2 style="margin: 2% auto;">Register New User</h2>
+        </div>
+        <div class="row">
+            <div class="col-md-4 field-label-responsive">
+                <label for="name">Name</label>
+            </div>
+            <div class="col-md-8">
+                <div class="form-group">
+                    <div class="input-group mb-2 mr-sm-2 mb-sm-0">
+                        <div class="input-group-addon" style="width: 2.6rem">
+                            <i class="fa fa-user"></i>
+                        </div>
+                        <input type="text" name="name" class="form-control" id="name" placeholder="John Doe" required autofocus  [(ngModel)]="userRegistering.name">
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="form-control-feedback">
+                    <span class="text-danger align-middle">
+                        <!-- Put name validation error messages here -->
+                    </span>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-4 field-label-responsive">
+                <label for="email">E-Mail Address</label>
+            </div>
+            <div class="col-md-8">
+                <div class="form-group">
+                    <div class="input-group mb-2 mr-sm-2 mb-sm-0">
+                        <div class="input-group-addon" style="width: 2.6rem">
+                            <i class="fa fa-at"></i>
+                        </div>
+                        <input type="text" name="email" class="form-control" id="email" placeholder="you@example.com" required autofocus [(ngModel)]="userRegistering.email">
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="form-control-feedback">
+                    <span class="text-danger align-middle">
+                        <!-- Put e-mail validation error messages here -->
+                    </span>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-4 field-label-responsive">
+                <label for="password">Password</label>
+            </div>
+            <div class="col-md-8">
+                <div class="form-group has-danger">
+                    <div class="input-group mb-2 mr-sm-2 mb-sm-0">
+                        <div class="input-group-addon" style="width: 2.6rem">
+                            <i class="fa fa-key"></i>
+                        </div>
+                        <input type="password" name="password" class="form-control" id="password" placeholder="Password" required  [(ngModel)]="userRegistering.password">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-4 field-label-responsive">
+                <label for="password">Confirm Password</label>
+            </div>
+            <div class="col-md-8">
+                <div class="form-group">
+                    <div class="input-group mb-2 mr-sm-2 mb-sm-0">
+                        <div class="input-group-addon" style="width: 2.6rem">
+                            <i class="fa fa-repeat"></i>
+                        </div>
+                        <input type="password" name="password-confirmation" class="form-control" id="password-confirm" placeholder="Password" required  [(ngModel)]="userRegistering.confirmPassword">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <button type="submit" class="btn btn-success" style="width: 100%; margin: 1% 1.2%; height: 50px;">
+                <i class="fa fa-user-plus"></i>Register</button>
+        </div>
+    </form>
+</div>

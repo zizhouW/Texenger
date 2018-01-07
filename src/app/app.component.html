@@ -19,8 +19,8 @@
             </li> -->
         </ul>
         <ul class="nav navbar-nav flex-row justify-content-between ml-auto">
-            <li *ngIf="!isLoggedIn" class="dropdown order-1">
-                <button class="btn btn-outline-info dropdown-toggle" type="button" data-toggle="dropdown">Login
+            <li *ngIf="!globals.loggedInAs" class="dropdown order-1">
+                <button class="btn btn-outline-primary dropdown-toggle" type="button" data-toggle="dropdown">Login
                     <span class="caret"></span>
                 </button>
                 <!-- <button type="button" id="dropdownMenu1" data-toggle="dropdown" class="btn btn-outline-secondary dropdown-toggle">Login <span class="caret"></span></button> -->
@@ -49,11 +49,12 @@
                     </li>
                 </ul>
             </li>
-            <li *ngIf="isLoggedIn" class="nav-item cursor-pointer" style="color: #99b3ff;">
-                <span style="margin-right: 10px;" class="dropdown-toggle" data-toggle="dropdown">Welcome! {{ userInfo.name }}</span>
-                <i class="fa fa-user" aria-hidden="true"></i>
+            <li *ngIf="globals.loggedInAs" class="nav-item cursor-pointer" style="color: #99b3ff;">
+                <span style="margin-right: 10px;" class="dropdown-toggle" data-toggle="dropdown">Welcome! {{ userInfo.name }}
+                    <i class="fa fa-user" aria-hidden="true"></i>
+                </span>
                 <ul class="dropdown-menu dropdown-menu-right mt-1 li-hover" style="min-width: 250px;">
-                    <li class="p-3 cursor-pointer">
+                    <li class="p-3 cursor-pointer" (click)='logOut()'>
                         <i class="fa fa-sign-out" aria-hidden="true"></i> Log out
                     </li>
                 </ul>
@@ -62,91 +63,3 @@
     </div>
 </nav>
 <router-outlet></router-outlet>
-<div *ngIf="!isLoggedIn && !isNewUser" style="text-align: center; margin-top: 10%;">
-    <img src="../../assets/images/lollypopax.png" alt="Jax Welcomes You!">
-</div>
-<div *ngIf="isNewUser" class="container" style="margin-top: 75px;">
-    <form class="form-horizontal" role="form" (ngSubmit)="onRegisterSubmit()">
-        <div class="row">
-            <h2 style="margin: 2% auto;">Register New User</h2>
-        </div>
-        <div class="row">
-            <div class="col-md-4 field-label-responsive">
-                <label for="name">Name</label>
-            </div>
-            <div class="col-md-8">
-                <div class="form-group">
-                    <div class="input-group mb-2 mr-sm-2 mb-sm-0">
-                        <div class="input-group-addon" style="width: 2.6rem">
-                            <i class="fa fa-user"></i>
-                        </div>
-                        <input type="text" name="name" class="form-control" id="name" placeholder="John Doe" required autofocus  [(ngModel)]="userRegistering.name">
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-4">
-                <div class="form-control-feedback">
-                    <span class="text-danger align-middle">
-                        <!-- Put name validation error messages here -->
-                    </span>
-                </div>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-md-4 field-label-responsive">
-                <label for="email">E-Mail Address</label>
-            </div>
-            <div class="col-md-8">
-                <div class="form-group">
-                    <div class="input-group mb-2 mr-sm-2 mb-sm-0">
-                        <div class="input-group-addon" style="width: 2.6rem">
-                            <i class="fa fa-at"></i>
-                        </div>
-                        <input type="text" name="email" class="form-control" id="email" placeholder="you@example.com" required autofocus [(ngModel)]="userRegistering.email">
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-4">
-                <div class="form-control-feedback">
-                    <span class="text-danger align-middle">
-                        <!-- Put e-mail validation error messages here -->
-                    </span>
-                </div>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-md-4 field-label-responsive">
-                <label for="password">Password</label>
-            </div>
-            <div class="col-md-8">
-                <div class="form-group has-danger">
-                    <div class="input-group mb-2 mr-sm-2 mb-sm-0">
-                        <div class="input-group-addon" style="width: 2.6rem">
-                            <i class="fa fa-key"></i>
-                        </div>
-                        <input type="password" name="password" class="form-control" id="password" placeholder="Password" required  [(ngModel)]="userRegistering.password">
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-md-4 field-label-responsive">
-                <label for="password">Confirm Password</label>
-            </div>
-            <div class="col-md-8">
-                <div class="form-group">
-                    <div class="input-group mb-2 mr-sm-2 mb-sm-0">
-                        <div class="input-group-addon" style="width: 2.6rem">
-                            <i class="fa fa-repeat"></i>
-                        </div>
-                        <input type="password" name="password-confirmation" class="form-control" id="password-confirm" placeholder="Password" required  [(ngModel)]="userRegistering.confirmPassword">
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="row">
-            <button type="submit" class="btn btn-success" style="width: 100%; margin: 1% 1.2%; height: 50px;">
-                <i class="fa fa-user-plus"></i>Register</button>
-        </div>
-    </form>
-</div>

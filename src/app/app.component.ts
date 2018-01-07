@@ -4,6 +4,7 @@ import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/map';
 import { Routes, RouterModule, Router } from "@angular/router";
 import { ToastsManager, ToastOptions } from 'ng2-toastr/ng2-toastr';
+import { GlobalVariables } from './global.variables';
 
 interface UserInfo {
   email: string;
@@ -19,7 +20,6 @@ interface UserInfo {
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  isLoggedIn = false;
   isNewUser = false;
   userLogin = {
     email: '',
@@ -32,7 +32,7 @@ export class AppComponent {
   allRoomId = 'AE76WJJqj8E4vQy8buqY';
   toastrOptions: ToastOptions;
 
-  constructor(private afs: AngularFirestore, private router: Router, private toastr: ToastsManager, private vRef: ViewContainerRef, private tOptions: ToastOptions) {
+  constructor(private afs: AngularFirestore, private router: Router, private toastr: ToastsManager, private vRef: ViewContainerRef, private tOptions: ToastOptions, private globals: GlobalVariables) {
     this.userLogin = {
       email: '',
       password: ''
@@ -96,7 +96,7 @@ export class AppComponent {
       this.toastr.error('Wrong password.', 'Invalid Login', this.toastrOptions);
     }
     else {
-      this.isLoggedIn = true;
+      this.globals.loggedInAs = userFilter[0].email;
       this.isNewUser = false;
       console.log('User ' + userFilter[0].name)
       this.userInfo = {
@@ -111,54 +111,51 @@ export class AppComponent {
 
   userRegister() {
     this.isNewUser = true;
+    this.router.navigate(['register']);
     return false;
   }
 
-  onRegisterSubmit() {
+  onRegisterSubmit(userRegistering) {
+    this.isNewUser = true;
     let userFilter = this.users.filter((user) => {
-      if (user.email == this.userRegistering.email) {
+      if (user.email == userRegistering.email) {
         return user;
       }
     });
     if (userFilter.length != 0) {
       this.toastr.error('This E-mail has already been used.', 'Invalid E-mail', this.toastrOptions);
     }
-    else if (this.userRegistering.password != this.userRegistering.confirmPassword) {
+    else if (userRegistering.password != userRegistering.confirmPassword) {
       this.toastr.error('Passwords entered are not the same.', 'Invalid password', this.toastrOptions);
     }
     else {
       this.afs.collection('users').add({
-        'name': this.userRegistering.name,
-        'email': this.userRegistering.email,
-        'password': this.userRegistering.password,
+        'name': userRegistering.name,
+        'email': userRegistering.email,
+        'password': userRegistering.password,
         'rooms': [this.allRoomId]
       });
       this.afs.collection('user-rooms').add({
-        'userEmail': this.userRegistering.email,
+        'userEmail': userRegistering.email,
         'rooms': [this.allRoomId]
       });
+      this.userRegistering = userRegistering;
       this.refreshUsers();
     }
   }
 
-  // logOut() {
-  //   this.isLoggedIn = false;
-  //   this.isNewUser = false;
-  //   this.userLogin = {
-  //     email: '',
-  //     password: ''
-  //   };
-  //   this.users = [];
-  //   this.userInfo = {
-  //     email: '',
-  //     name: '',
-  //   };
-  //   this.userRegistering = {
-  //     email: '',
-  //     password: '',
-  //     confirmPassword: '',
-  //     name: ''
-  //   }
-  //   this.router.navigate(['']);
-  // }
+  logOut() {
+    this.isNewUser = false;
+    this.userLogin = {
+      email: '',
+      password: ''
+    };
+    this.users = [];
+    this.userInfo = {
+      email: '',
+      name: '',
+    };
+    this.globals.loggedInAs = null;
+    this.router.navigate(['']);
+  }
 }

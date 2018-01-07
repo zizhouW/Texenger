@@ -1,4 +1,4 @@
-<div style="margin-top:75px; margin-left:2%; max-height:790px; overflow-y: scroll;">
+<div style="margin-top:75px; margin-left:2%; max-height:790px; overflow-y: scroll;" #messagesDiv>
     <div *ngFor="let message of chat" [ngClass]="message.user == userName ? 'my-messages' : 'other-messages'" style="margin-bottom:1%; overflow: visible;">
         <span>
             <b>{{message.user}}</b>
@@ -11,5 +11,5 @@
 </div>
 <footer class="fixed-bottom">
     <textarea class="message-box" style="resize: none;" placeholder="enter text here" name="textbox" [(ngModel)]="textMessage"></textarea>
-    <input type="submit" value="&crarr;" class="submit-msg-btn" style="font-size:1.5em;" />
+    <input type="submit" value="&crarr;" class="submit-msg-btn" style="font-size:1.5em;" (click)="sendMessage(messagesDiv);" />
 </footer>
