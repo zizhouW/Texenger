@@ -72,13 +72,25 @@ export class AppComponent {
         response.forEach((user) => {
           this.users.push(user.data);
         });
-        this.userLogin = {
-          email: this.userRegistering.email,
-          password: this.userRegistering.password
+
+        if (localStorage.getItem('userLoginInfo') !== null) {
+          let userLoginInfo = JSON.parse(localStorage.getItem('userLoginInfo'));
+          this.globals.loggedInAs = userLoginInfo.email;
+          this.userLogin = {
+            email: userLoginInfo.email,
+            password: userLoginInfo.password
+          }
         }
-        if (this.isNewUser) {
-          this.onLoginSubmit();
+        else if (this.isNewUser) {
+          this.userLogin = {
+            email: this.userRegistering.email,
+            password: this.userRegistering.password
+          }
         }
+        else {
+          return;
+        }
+        this.onLoginSubmit();
       });
   }
 
@@ -103,6 +115,7 @@ export class AppComponent {
         email: userFilter[0].email,
         name: userFilter[0].name
       };
+      localStorage.setItem('userLoginInfo', JSON.stringify(this.userLogin));
       let username = 'roomList/' + userFilter[0].id + '/' + userFilter[0].email;
       this.router.navigate([username]);
     }
@@ -156,6 +169,7 @@ export class AppComponent {
       name: '',
     };
     this.globals.loggedInAs = null;
+    localStorage.clear();
     this.router.navigate(['']);
   }
 }

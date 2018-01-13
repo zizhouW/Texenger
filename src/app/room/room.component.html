@@ -1,4 +1,4 @@
-<div style="margin-top:75px; margin-left:2%; max-height:790px; overflow-y: scroll;" #messagesDiv>
+<div style="margin-top:75px; margin-left:2%; max-height:790px; overflow-y: auto;" #messagesDiv>
     <div *ngFor="let message of chat" [ngClass]="message.user == userName ? 'my-messages' : 'other-messages'" style="margin-bottom:1%; overflow: visible;">
         <span>
             <b>{{message.user}}</b>

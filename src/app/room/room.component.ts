@@ -42,7 +42,7 @@ export class RoomComponent {
     }
 
     ngOnInit() {
-        if (this.globals.loggedInAs == null) {
+        if (localStorage.getItem('userLoginInfo') == null) {
             this.router.navigate(['home']);
         }
         let chatCol = this.afs.collection('rooms/' + this.roomId + '/chat');

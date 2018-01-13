@@ -51,7 +51,7 @@ export class RoomListComponent {
   }
 
   ngOnInit() {
-    if (this.globals.loggedInAs == null) {
+    if (localStorage.getItem('userLoginInfo') == null) {
       this.router.navigate(['home']);
     }
     let usersCol = this.afs.collection('users');

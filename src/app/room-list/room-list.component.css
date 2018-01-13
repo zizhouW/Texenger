@@ -1,5 +1,5 @@
-.card-body :hover {
-    background: #eeeeee;
+.card :hover {
+    font-weight: bold;
 }
 
 .cursor-pointer {
