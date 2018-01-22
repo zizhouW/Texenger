@@ -128,6 +128,11 @@ export class AppComponent {
     return false;
   }
 
+  checkEmailValidity(email) {
+    var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    return re.test(email.toLowerCase());
+  }
+
   onRegisterSubmit(userRegistering) {
     this.isNewUser = true;
     let userFilter = this.users.filter((user) => {
@@ -137,6 +142,12 @@ export class AppComponent {
     });
     if (userFilter.length != 0) {
       this.toastr.error('This E-mail has already been used.', 'Invalid E-mail', this.toastrOptions);
+    }
+    else if (userRegistering.password.length < 6) {
+      this.toastr.error('Password needs to be at least 6 digits.', 'Invalid password', this.toastrOptions)
+    }
+    else if (!this.checkEmailValidity(userRegistering.email)) {
+      this.toastr.error('Invalid E-mail format.', 'Invalid E-mail', this.toastrOptions);
     }
     else if (userRegistering.password != userRegistering.confirmPassword) {
       this.toastr.error('Passwords entered are not the same.', 'Invalid password', this.toastrOptions);

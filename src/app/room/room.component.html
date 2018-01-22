@@ -10,6 +10,8 @@
     <img *ngIf="chat && chat.length == 0" src="../../assets/images/empty.jpg" alt="room_image_default">
 </div>
 <footer class="fixed-bottom">
-    <textarea class="message-box" style="resize: none;" placeholder="enter text here" name="textbox" [(ngModel)]="textMessage"></textarea>
-    <input type="submit" value="&crarr;" class="submit-msg-btn" style="font-size:1.5em;" (click)="sendMessage(messagesDiv);" />
+    <textarea class="message-box" style="resize: none;" placeholder="enter text here" name="textbox" [(ngModel)]="textMessage"
+        (keydown.enter)="sendMessage(messagesDiv);"></textarea>
+    <input type="submit" value="&crarr;" class="submit-msg-btn" style="font-size:1.5em;" (click)="sendMessage(messagesDiv);"
+    />
 </footer>
